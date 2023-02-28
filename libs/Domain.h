@@ -13,7 +13,9 @@ typedef enum {
 
 class Domain {
 public:
-    explicit Domain(std::string domain, std::string password, std::string subdomain = "", Service service = NAMECHEAP, std::string ip = "");
+    explicit Domain(std::string domain, std::string password, std::string subdomain = "", Service service = NAMECHEAP,
+                    std::string ip = "");
+
     bool update();
 
 private:
@@ -24,6 +26,7 @@ private:
     std::string ip;
 
     static std::string get(const std::string &url);
+
     std::string getName();
 };
 

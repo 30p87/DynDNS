@@ -35,14 +35,14 @@
 "\n" \
 "Available service options are: namecheap\n"
 
-static struct option long_options[] {
-        {"domain", required_argument, nullptr, 0},
+static struct option long_options[]{
+        {"domain",   required_argument, nullptr, 0},
         {"password", required_argument, nullptr, 0},
-        {"service", required_argument, nullptr, 0},
-        {"ip", required_argument, nullptr, 0},
-        {"config", required_argument, nullptr, 0},
-        {"help", no_argument, nullptr, 0},
-        {nullptr, 0, nullptr, 0}
+        {"service",  required_argument, nullptr, 0},
+        {"ip",       required_argument, nullptr, 0},
+        {"config",   required_argument, nullptr, 0},
+        {"help",     no_argument,       nullptr, 0},
+        {nullptr,    0,                 nullptr, 0}
 };
 
 const char *opt_string = "d:p:s:i:c:h";
@@ -51,7 +51,7 @@ std::map<std::string, Service> serviceMap = {
         {"namecheap", NAMECHEAP}
 };
 
-std::string configPath() {
+std::string getConfigPath() {
     std::string conf_dir = "~";
     if (std::getenv("XDG_CONFIG_DIR") != nullptr)
         conf_dir = std::getenv("XDG_CONFIG_DIR");
@@ -63,13 +63,13 @@ std::string configPath() {
     return conf_dir + CONFIG_FILE_NAME;
 }
 
-bool checkConfig(const Json::Value& root) {
+bool checkConfig(const Json::Value &root) {
     if (root.type() != Json::arrayValue)
         return false;
-    for (const Json::Value& domain : root) {
+    for (const Json::Value &domain: root) {
         return !(domain.type() != Json::objectValue ||
-        domain["domain"].empty() ||
-        domain["password"].empty());
+                 domain["domain"].empty() ||
+                 domain["password"].empty());
     }
     return true;
 }
@@ -95,8 +95,9 @@ std::list<Domain> parseConfig(std::string path) {
         exit(EXIT_FAILURE);
     }
 
-    for (const Json::Value &domain : root) {
-        domains.emplace_back(domain["domain"].asString(), domain["password"].asString(), domain["subdomain"].asString(), serviceMap[domain["service"].asString()], domain["ip"].asString());
+    for (const Json::Value &domain: root) {
+        domains.emplace_back(domain["domain"].asString(), domain["password"].asString(), domain["subdomain"].asString(),
+                             serviceMap[domain["service"].asString()], domain["ip"].asString());
     }
 
     return domains;
@@ -110,7 +111,7 @@ std::list<Domain> parseArgs(int argc, char *argv[]) {
     Service service;
     std::string ip;
 
-    std::string config = configPath();
+    std::string config = getConfigPath();
     std::list<Domain> domains;
 
     int option_index;
@@ -118,7 +119,7 @@ std::list<Domain> parseArgs(int argc, char *argv[]) {
          arg != -1;
          arg = getopt_long(argc, argv, opt_string, long_options, &option_index)) {
         if (arg == 0)
-            arg = (unsigned char)long_options[option_index].name[0];
+            arg = (unsigned char) long_options[option_index].name[0];
 
         std::smatch match;
 
@@ -190,7 +191,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    for (Domain domain : domains) {
+    for (Domain domain: domains) {
         if (domain.update()) {
             fmt::print("Domains updated!\n");
         }

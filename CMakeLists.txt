@@ -13,7 +13,7 @@ target_link_libraries(DynDNS PRIVATE fmt::fmt curl curlcpp xml2 jsoncpp)
 
 set(INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/bin")
 configure_file(dyndns.service.in dyndns.service @ONLY)
-configure_file(dyndns.timer.in dyndns.timer.in @ONLY)
+configure_file(dyndns.timer.in dyndns.timer @ONLY)
 install(TARGETS DynDNS RUNTIME DESTINATION bin)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dyndns.service ${CMAKE_CURRENT_BINARY_DIR}/dyndns.timer DESTINATION ${SYSTEMD_UNIT_FILE_PATH})
 install(CODE "execute_process(COMMAND /usr/bin/systemctl --user daemon-reload)")

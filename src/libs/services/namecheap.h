@@ -11,7 +11,7 @@
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
 
-#define BASE_URL "https://dynamicdns.park-your-domainName.com/update?domain={}&password={}&ip={}"
+#define BASE_URL "https://dynamicdns.park-your-domain.com/update?domain={}&password={}&ip={}"
 #define SUB_URL "&host={}"
 
 namespace namecheap {

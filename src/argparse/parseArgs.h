@@ -23,7 +23,7 @@
 "   -s, --updater [<str>]   the updater on which the domainName is registered on. Nothing defaults to namecheap\n"                 \
 "   -i, --ip [<str>]        the ip to which it should be updated. Can be left blank for automatic detection\n"                 \
 "   -c, --config <str>      the config file to use. Defaults to $XDG_CONFIG_DIR/dyndns.json if no other parameters are provided\n" \
-"   -l, --loop [<int>]      loops and checks every n-th second, and updates if required"                  \
+"   -l, --loop [<int>]      loops and checks every n-th second, and updates if required\n"                  \
 "   -q, --quiet             no info output. Used for the systemd updater\n"                  \
 "   -h, --help              display this help and exit\n"                            \
 "\n"               \

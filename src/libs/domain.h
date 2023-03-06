@@ -11,20 +11,22 @@ typedef enum {
     NAMECHEAP = 0
 } Service;
 
-class Domain {
+class domain {
 public:
-    explicit Domain(std::string domain, std::string password, std::string subdomain = "", Service service = NAMECHEAP,
+    explicit domain(std::string domainName, std::string password, std::string subdomain = "", Service service = NAMECHEAP,
                     std::string ip = "");
 
+    bool forceUpdate();
     bool update();
 
 private:
-    std::string domain;
+    std::string domainName;
     std::string subdomain;
     std::string password;
     Service service;
     std::string ip;
 
+    bool needsUpdate();
     static std::string get(const std::string &url);
 
     std::string getName();

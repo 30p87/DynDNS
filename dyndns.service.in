@@ -1,0 +1,10 @@
+[Unit]
+Description=Dynamic DNS updater
+
+[Service]
+Type=simple
+ExecStart=@INSTALL_DIR@/DynDNS --quiet
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

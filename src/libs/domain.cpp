@@ -2,19 +2,20 @@
 // Created by 30p87 on 2/26/23.
 //
 
-#include "Domain.h"
+#include "domain.h"
 #include <curlcpp/curl_easy.h>
 #include <curlcpp/curl_header.h>
 #include <fmt/core.h>
 #include <utility>
 #include <libxml/parser.h>
 #include <libxml/xpath.h>
+#include <netdb.h>
 
-#define BASE_URL "https://dynamicdns.park-your-domain.com/update?domain={}&password={}&ip={}"
+#define BASE_URL "https://dynamicdns.park-your-domainName.com/update?domain={}&password={}&ip={}"
 #define SUB_URL "&host={}"
 
-Domain::Domain(std::string domain, std::string password, std::string subdomain, Service service, std::string ip)
-        : domain(std::move(domain)), password(std::move(password)), subdomain(std::move(subdomain)), service(service),
+domain::domain(std::string domainName, std::string password, std::string subdomain, Service service, std::string ip)
+        : domainName(std::move(domainName)), password(std::move(password)), subdomain(std::move(subdomain)), service(service),
           ip(std::move(ip)) {
     if (this->ip.empty()) {
         std::string ret = get("https://api4.ipify.org");
@@ -26,7 +27,7 @@ Domain::Domain(std::string domain, std::string password, std::string subdomain, 
     }
 }
 
-std::string Domain::get(const std::string &url) {
+std::string domain::get(const std::string &url) {
     std::ostringstream str;
     curl::curl_ios<std::ostringstream> writer(str);
     curl::curl_easy easy(writer);
@@ -44,11 +45,11 @@ std::string Domain::get(const std::string &url) {
     return str.str();
 }
 
-bool Domain::update() {
+bool domain::forceUpdate() {
     if (service != NAMECHEAP) return false;
     std::string out;
     std::string url;
-    url = fmt::format(BASE_URL, domain, password, ip);
+    url = fmt::format(BASE_URL, domainName, password, ip);
     if (!subdomain.empty()) url += fmt::format(SUB_URL, subdomain);
     out = get(url);
 
@@ -96,6 +97,16 @@ bool Domain::update() {
     return true;
 }
 
-std::string Domain::getName() {
-    return fmt::format("{}{}", subdomain.empty() ? "" : fmt::format("{}.", subdomain), domain);
+bool domain::needsUpdate() {
+    char **addresses = gethostbyname(getName().c_str())->h_addr_list;
+    char *addr = addresses[0];
+    return !(fmt::format("{}.{}.{}.{}", (int)addr[0], (int)addr[1], (int)addr[2], (int)addr[3]) == ip);
+}
+
+bool domain::update() {
+    return !needsUpdate() || forceUpdate();
+}
+
+std::string domain::getName() {
+    return fmt::format("{}{}", subdomain.empty() ? "" : fmt::format("{}.", subdomain), domainName);
 }

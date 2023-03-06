@@ -5,29 +5,29 @@
 #ifndef DYNDNS_DOMAIN_H
 #define DYNDNS_DOMAIN_H
 
+#include "services/services.h"
 #include <string>
-
-typedef enum {
-    NAMECHEAP = 0
-} Service;
+#include <fmt/core.h>
+#include <map>
+#include <utility>
+#include <netdb.h>
 
 class domain {
 public:
-    explicit domain(std::string domainName, std::string password, std::string subdomain = "", Service service = NAMECHEAP,
+    explicit domain(std::string domainName, std::string password, std::string subdomain = "",
+                    updatePointer updater = nullptr,
                     std::string ip = "");
 
-    bool forceUpdate();
     bool update();
 
 private:
     std::string domainName;
     std::string subdomain;
     std::string password;
-    Service service;
+    updatePointer updater;
     std::string ip;
 
     bool needsUpdate();
-    static std::string get(const std::string &url);
 
     std::string getName();
 };

@@ -1,5 +1,4 @@
-#include "libs/domain.h"
-#include "libs/parseArgs.h"
+#include "argparse/parseArgs.h"
 #include <fmt/core.h>
 #include <list>
 #include <csignal>
@@ -27,6 +26,6 @@ int main(int argc, char *argv[]) {
             }
         }
         sleep(args.loop);
-    } while(args.loop);
+    } while (args.loop);
     return 0;
 }

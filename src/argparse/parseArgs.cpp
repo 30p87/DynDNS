@@ -9,7 +9,7 @@ arguments parseArgs(int argc, char *argv[]) {
     std::string subdomain;
 
     std::string password;
-    Service service;
+    updatePointer updater;
     std::string ip;
 
     std::string config = getConfigPath();
@@ -46,7 +46,7 @@ arguments parseArgs(int argc, char *argv[]) {
 
                 subdomain = std::regex_replace(domainName, std::regex("\\.?" + match[0].str()), "");
 
-                ret.domains.emplace_back(match[0].str(), password, subdomain, service, ip);
+                ret.domains.emplace_back(match[0].str(), password, subdomain, updater, ip);
                 break;
 
             case 'p':
@@ -56,7 +56,7 @@ arguments parseArgs(int argc, char *argv[]) {
 
             case 's':
                 config = "";
-                service = serviceMap[optarg];
+                updater = updaterMap[optarg];
                 break;
 
             case 'c':

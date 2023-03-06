@@ -21,7 +21,7 @@ bool checkConfig(const Json::Value &root) {
         root["domains"].type() != Json::arrayValue || !(
             root["loop"].type() == Json::intValue ||
             root["loop"].type() == Json::nullValue
-        ) || !(
+    ) || !(
             root["quiet"].type() == Json::booleanValue ||
             root["quiet"].type() == Json::nullValue))
         return false;
@@ -55,8 +55,9 @@ arguments parseConfig(std::string path, arguments argRet) {
     }
 
     for (const Json::Value &domain: root["domains"]) {
-        ret.domains.emplace_back(domain["domain"].asString(), domain["password"].asString(), domain["subdomain"].asString(),
-                             serviceMap[domain["service"].asString()], domain["ip"].asString());
+        ret.domains.emplace_back(domain["domain"].asString(), domain["password"].asString(),
+                                 domain["subdomain"].asString(),
+                                 updaterMap[domain["service"].asString()], domain["ip"].asString());
     }
 
     ret.loop = root["loop"].type() == Json::intValue ? root["loop"].asInt() : argRet.loop;

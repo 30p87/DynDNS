@@ -5,12 +5,12 @@
 #ifndef DYNDNS_PARSECONFIG_H
 #define DYNDNS_PARSECONFIG_H
 
-#include "domain.h"
+#include "../libs/domain.h"
 #include <string>
 #include <json/json.h>
 #include <fmt/core.h>
-#include <list>
 #include <fstream>
+#include <list>
 
 #define CONFIG_FILE_NAME "/DynDNS.json"
 
@@ -21,11 +21,9 @@ struct arguments {
 };
 
 std::string getConfigPath();
-bool checkConfig(const Json::Value &root);
-arguments parseConfig(std::string path, arguments argRet);
 
-static std::map<std::string, Service> serviceMap = {
-        {"namecheap", NAMECHEAP}
-};
+bool checkConfig(const Json::Value &root);
+
+arguments parseConfig(std::string path, arguments argRet);
 
 #endif //DYNDNS_PARSECONFIG_H

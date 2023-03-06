@@ -7,7 +7,7 @@ set(SYSTEMD_UNIT_FILE_PATH "/usr/lib/systemd/user/")
 find_package(fmt)
 
 include_directories(/usr/include/libxml2)
-add_executable(DynDNS src/main.cpp src/libs/domain.cpp src/libs/domain.h src/libs/parseArgs.cpp src/libs/parseConfig.cpp src/libs/parseArgs.h src/libs/parseConfig.h)
+add_executable(DynDNS src/main.cpp src/libs/domain.cpp src/libs/domain.h src/argparse/parseArgs.cpp src/argparse/parseConfig.cpp src/argparse/parseArgs.h src/argparse/parseConfig.h src/libs/services/namecheap.cpp src/libs/services/namecheap.h src/libs/services/services.h src/libs/network.cpp src/libs/network.h)
 target_link_libraries(DynDNS PRIVATE fmt::fmt curl curlcpp xml2 jsoncpp)
 
 
